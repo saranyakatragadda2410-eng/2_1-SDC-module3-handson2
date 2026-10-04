@@ -1,0 +1,52 @@
+# Perceptron Classifier for Binary Data
+
+A single-layer perceptron implementation **from scratch** (NumPy only) to classify
+linearly separable binary data using gradient descent.
+
+## Project Structure
+
+```text
+main.py                 Training and cross-validation demo
+src/perceptron.py       Perceptron model and training history
+src/train.py            Reusable training helpers
+src/utils.py            Decision-boundary and convergence plots
+data/generate_data.py   Dataset generators and train/test splitting
+```
+
+## Setup
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+## Run
+
+From the project directory:
+
+```bash
+python main.py
+```
+
+The demo generates a reproducible, stratified AND dataset, trains the batch
+perceptron, reports convergence and accuracy, and runs five-fold validation.
+
+## Dataset choices
+
+`generate_binary_data` supports `and`, `or`, `nand`, `nor`, and `custom` as
+linearly separable datasets. The gate datasets are sampled around binary
+corners with bounded jitter, so the labels remain consistent with their truth
+tables. `xor`, `moons`, and `circles` are intentionally non-linearly separable
+and are useful for demonstrating when a single-layer perceptron cannot
+converge.
+
+```python
+from data.generate_data import generate_binary_data
+
+X, y, meta = generate_binary_data(
+	"and", n_samples=300, noise=0.15, random_state=42, return_meta=True
+)
+```
+
+The model uses the batch perceptron criterion: misclassified examples update
+the weights and bias, and training stops when there are no misclassifications
+or when `n_iterations` is exhausted.
